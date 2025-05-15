@@ -2,8 +2,7 @@
 
 This project sets up a **virtual detection environment** for simulating cyber-attacks and monitoring them using the **Elastic Stack (ELK)**. It includes virtual machines (Ubuntu, Windows 10/11, and Kali Linux) running in VMware Workstation on a Fedora host.
 
-![Design Diagram](./detection-lab-elk-design.drawio.pdf)
-
+📄 [Click here to view the Design Diagram (PDF)](./detection-lab-elk-design.drawio.pdf)
 ---
 
 ## 🧠 Project Goal
