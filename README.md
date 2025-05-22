@@ -43,6 +43,152 @@ Please follow the YouTube tutorials below to install each component properly.
 
 > ⚠️ Make sure you allocate enough RAM, CPU cores, and networking setup (bridged or NAT) for smooth operation.
 
+
+## 🕵️ Install Zeek 6.0 LTS on Ubuntu 22.04 (Binary Package)
+
+Zeek is a powerful network traffic analysis tool used for security monitoring. Below are the official steps to install **Zeek 6.0 LTS** on **Ubuntu 22.04** using binary packages.
+
+📖 **Source:** [Zeek Official Installation Docs](https://docs.zeek.org/en/v7.2.1/install.html#binary-packages)  
+> ⚠️ *The repository URL and version may change in the future. Always check the official documentation for the latest instructions.*
+
+---
+
+### 🧰 Prerequisites
+
+First, install `curl` if not already installed:
+
+```bash
+sudo apt update
+sudo apt install curl -y
+```
+
+---
+
+### 🔐 Step 1: Switch to Root
+
+Before proceeding with repository setup, switch to the root user:
+
+```bash
+su
+```
+
+Enter your root password when prompted.
+
+---
+
+### 📥 Step 2: Add the Zeek Repository
+
+```bash
+echo 'deb http://download.opensuse.org/repositories/security:/zeek/xUbuntu_22.04/ /' | tee /etc/apt/sources.list.d/security:zeek.list
+curl -fsSL https://download.opensuse.org/repositories/security:zeek/xUbuntu_22.04/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/security_zeek.gpg > /dev/null
+apt update
+```
+
+---
+
+### 📦 Step 3: Install Zeek
+
+```bash
+apt install zeek-6.0 -y
+```
+
+> ✅ Zeek will be installed in `/opt/zeek`.
+
+---
+
+## ⚙️ Basic Zeek Configuration
+
+### 🔧 Configure Network Interface
+
+1. Go to the Zeek config directory:
+
+```bash
+cd /opt/zeek/etc/
+```
+
+2. Edit `node.cfg`:
+
+```bash
+nano node.cfg
+```
+
+3. Locate this line:
+
+```
+interface=eth0
+```
+
+4. In another terminal, run:
+
+```bash
+ip addr
+```
+
+Find your **private IP** and note the interface name (e.g., `ens33`, `enp0s3`, etc.). Replace `eth0` with your actual interface name in `node.cfg`.
+
+5. Save and close the file (`CTRL+O`, `ENTER`, then `CTRL+X` in nano).
+
+---
+
+## 🚀 Running Zeek
+
+### 🧪 First-Time Deployment
+
+```bash
+cd /opt/zeek/bin/
+./zeekctl deploy
+```
+
+Monitor logs in `/opt/zeek/logs/current/`.
+
+---
+
+## 🔁 Optional: Run Zeek from Anywhere
+
+To make `zeekctl` and `zeek` globally accessible:
+
+```bash
+echo 'export PATH=/opt/zeek/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+```
+
+Now you can run:
+
+```bash
+zeekctl status
+```
+
+from any location.
+
+---
+
+## 📝 Optional: Enable JSON Logging
+
+To log in JSON format (useful for ELK integration):
+
+1. Edit the main Zeek config:
+
+```bash
+nano /opt/zeek/share/zeek/site/local.zeek
+```
+
+2. Add this line at the end:
+
+```zeek
+@load policy/tuning/json-logs.zeek
+```
+
+3. Save and exit.
+
+4. Apply the change:
+
+```bash
+zeekctl deploy
+```
+
+---
+
+
 ---
 
 ## 📦 Elastic Stack Setup (Coming Soon)
