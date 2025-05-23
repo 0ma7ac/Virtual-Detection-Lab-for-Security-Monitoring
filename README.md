@@ -272,6 +272,41 @@ Once the agent starts, return to Kibana Fleet and confirm the agent status is "H
 If the agent does not appear, consult the [Elastic Agent Troubleshooting Guide](https://www.elastic.co/guide/en/fleet/current/fleet-troubleshooting.html).
 
 ---
+## 🕵️ Install and Configure Zeek Integration on Ubuntu
+
+---
+
+### 1. Add Zeek Integration in Kibana Fleet
+
+- Go to **Kibana > Fleet > Integrations**.
+- Search for **Zeek** and click **Add Zeek**.
+- Create a new integration policy called `zeek-agent` (or any name you prefer).
+- Save the integration.
+
+---
+
+### 2. Assign Zeek Integration to a New Host
+
+- Go to **Fleet > Agents**.
+- Click **Add Agent**.
+- Select the `zeek-agent` policy.
+- Select an **Enrollment Token** associated with this policy.
+- Copy the enrollment command.
+
+
+---
+
+### 3. Install Elastic Agent on Ubuntu Host
+
+Run these commands on your Ubuntu host to download, install, and enroll the Elastic Agent with Zeek integration:
+
+```bash
+curl -L -O https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-9.0.1-linux-x86_64.tar.gz
+tar xzvf elastic-agent-9.0.1-linux-x86_64.tar.gz
+cd elastic-agent-9.0.1-linux-x86_64
+sudo ./elastic-agent install --url=https://YOUR_FLEET_URL:443 --enrollment-token=YOUR_ENROLLMENT_TOKEN
+```
+---
 
 
 ## 📁 Project Structure
