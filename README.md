@@ -191,11 +191,88 @@ zeekctl deploy
 
 ---
 
-## 📦 Elastic Stack Setup (Coming Soon)
+## 📝 Sign Up for Elastic Cloud & Prepare for Agent Enrollment
 
-🚧 *Screenshots and setup steps for Elastic Stack, Agents, and detection rules will be added here.*
+Before installing Elastic Agents, you need an Elastic Cloud deployment or a self-hosted Elastic Stack with **Fleet Server** enabled. Below are steps to get started with **Elastic Cloud** (recommended for beginners):
 
 ---
+
+### ☁️ Step 1: Sign Up for Elastic Cloud (Free Trial)
+
+1. Go to the official Elastic Cloud site:  
+   👉 [https://cloud.elastic.co](https://cloud.elastic.co)
+
+2. Sign up using your email or GitHub/Google login.
+
+3. Once logged in, click **"Create Deployment"**.
+
+4. Choose a cloud provider and region (AWS, GCP, Azure).
+
+5. Give your deployment a name (e.g., `detection-lab`), then click **Create deployment**.
+
+6. Wait a few minutes for Elastic Cloud to provision your services.
+
+7
+## 🚀 Next Step: Install Elastic Agent on Ubuntu & Windows
+
+## 🛡️ Install Elastic Agent via Fleet
+
+Elastic Agent is used to collect logs, metrics, and security data. It’s managed centrally via **Fleet** in Kibana.
+
+---
+
+### 🔧 Step 1: Navigate to Elastic Defend in Kibana
+
+1. Open **Kibana** and log into your Elastic Cloud deployment.
+2. In the left sidebar, go to **Management** → **Integrations**.
+3. In the search bar, type `Elastic Defend`.
+4. Click on the **Elastic Defend** integration.
+5. Click **Add Elastic Defend**.
+6. This will open a new screen to install an agent.
+
+---
+
+### 📥 Step 2: Install Elastic Agent (Linux Example)
+
+Replace the enrollment URL and token with your own values from Fleet.
+
+```bash
+curl -L -O https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-9.0.1-linux-x86_64.tar.gz 
+tar xzvf elastic-agent-9.0.1-linux-x86_64.tar.gz
+cd elastic-agent-9.0.1-linux-x86_64
+sudo ./elastic-agent install \
+  --url=https://your-fleet-url.fleet.region.cloud.es.io:443 \
+  --enrollment-token=YOUR_ENROLLMENT_TOKEN
+```
+
+---
+
+### 🪟 Step 3: Install Elastic Agent (Windows Example)
+
+Open PowerShell as Administrator and run:
+
+```powershell
+$ProgressPreference = 'SilentlyContinue'
+Invoke-WebRequest -Uri https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-9.0.1-windows-x86_64.zip -OutFile elastic-agent-9.0.1-windows-x86_64.zip 
+Expand-Archive .\elastic-agent-9.0.1-windows-x86_64.zip -DestinationPath .
+cd elastic-agent-9.0.1-windows-x86_64
+.\elastic-agent.exe install `
+  --url=https://your-fleet-url.fleet.region.cloud.es.io:443 `
+  --enrollment-token=YOUR_ENROLLMENT_TOKEN
+```
+
+> 💡 Add `--unprivileged` to install without root/administrator privileges.
+
+---
+
+### ✅ Step 4: Confirm Enrollment
+
+Once the agent starts, return to Kibana Fleet and confirm the agent status is "Healthy". This means it’s enrolled and active.
+
+If the agent does not appear, consult the [Elastic Agent Troubleshooting Guide](https://www.elastic.co/guide/en/fleet/current/fleet-troubleshooting.html).
+
+---
+
 
 ## 📁 Project Structure
 
